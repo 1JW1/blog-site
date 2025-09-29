@@ -2,17 +2,19 @@ name: Build & Deploy Jekyll to Vercel (Prod)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
+    
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
@@ -20,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: bundle install --without development
 
-      - name: Build Jekyll
+      - name: Build Jekyll site
         env:
           JEKYLL_ENV: production
         run: bundle exec jekyll build -d _site
@@ -29,12 +31,8 @@ jobs:
         run: npm i -g vercel@latest
 
       - name: Deploy to Vercel Production
+        run: vercel deploy _site --prod --yes --token=$VERCEL_TOKEN
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          vercel deploy _site \
-            --prebuilt \
-            --prod \
-            --yes \
