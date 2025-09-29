@@ -33,8 +33,18 @@ jobs:
           VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          vercel deploy _site \
+          set -euo pipefail
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo "❌ Missing VERCEL_TOKEN secret"; exit 1; fi
+          if [ -z "${VERCEL_TEAM_ID:-}" ]; then
+            echo "❌ Missing VERCEL_TEAM_ID secret"; exit 1; fi
+          if [ -z "${VERCEL_PROJECT_ID:-}" ]; then
+            echo "❌ Missing VERCEL_PROJECT_ID secret"; exit 1; fi
+
+          npx --yes vercel@latest deploy _site \
             --prebuilt \
             --prod \
             --yes \
-            --token $VERCEL_TOKEN
+            --token "$VERCEL_TOKEN" \
+            --org "$VERCEL_TEAM_ID" \
+            --project "$VERCEL_PROJECT_ID"
