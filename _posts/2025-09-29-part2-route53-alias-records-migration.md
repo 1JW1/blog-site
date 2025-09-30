@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Migrating to Route 53 Alias Records"
+title: "DNS Hardening | Part 2: Migrating to Route 53 Alias Records"
 description: "Implementing alias records with Terraform to resolve CNAME conflicts and enable email security across 44 domains"
 author:
 date: 2025-09-29

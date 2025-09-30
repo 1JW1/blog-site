@@ -1,5 +1,5 @@
 ---
-title: "Part 1: How CNAME Records Block Email Security"
+title: "DNS Hardening | Part 1: How CNAME Records Block Email Security"
 description: "Investigating DNS conflicts between CNAME records and SPF, DKIM, and MX records in AWS Route 53"
 author:
 date: 2025-09-29
